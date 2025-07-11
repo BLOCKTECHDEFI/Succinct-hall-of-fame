@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Community of the Year - Succinct</title>
+
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Background image instead of video -->
+    <div id="bgImage"></div>
+
+    <div class="overlay"></div>
+
+    <header>
+      <div class="title">
+        <img src="succinct-logo.svg" alt="Succinct Logo" class="logo" />
+        <h1>Succinct community hall of fame</h1>
+      </div>
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="Search your X username..."
+      />
+    </header>
+
+    <div class="submit-form-container">
+      <form id="submitForm">
+        <input
+          type="text"
+          id="newUsername"
+          placeholder="@YourXHandle"
+          required
+        />
+        <input
+          type="text"
+          id="newDescription"
+          placeholder="Enter your description..."
+          required
+        />
+        <button type="submit">Enter Hall of Fame</button>
+      </form>
+    </div>
+
+    <h3>
+      Created with love by
+      <a href="https://x.com/BLOCKTECHDEFI" target="_blank">@BLOCKTECHDEFI</a>
+    </h3>
+
+    <main id="cardContainer">
+      <!-- Profile cards will be generated here -->
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
