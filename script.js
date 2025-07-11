@@ -1,46 +1,688 @@
-// Succinct Hall of Fame – with auto-refresh after submission
+// --- 1. Predefined static profiles ---
+const predefinedProfiles = [
+  {
+    username: "@BLOCKTECHDEFI",
+    image: "https://unavatar.io/twitter/BLOCKTECHDEFI",
+    style: "red",
+    description: "One who does not know pain cannot find true peace...",
+    link: "https://x.com/BLOCKTECHDEFI",
+  },
+  {
+    username: "@pumatheuma",
+    image: "https://unavatar.io/twitter/pumatheuma",
+    style: "green",
+    description: "Founder of succinct and the SP1 creator ",
+    link: "https://x.com/pumatheuma",
+  },
+  {
+    username: "@0xCRASHOUT",
+    image: "https://unavatar.io/twitter/0xCRASHOUT",
+    style: "green",
+    description: "CM at succinct, retardio ! ",
+    link: "https://x.com/0xCRASHOUT",
+  },
+  {
+    username: "@nair_advaith",
+    image: "https://unavatar.io/twitter/nair_advaith",
+    style: "green",
+    description: "Spreading misinformation",
+    link: "https://x.com/nair_advaith",
+  },
 
-let profiles = [];
+  {
+    username: "@DanHennessy",
+    image: "https://unavatar.io/twitter/DanHennessy",
+    style: "green",
+    description: "Troll at SuccinctLabs",
+    link: "https://x.com/DanHennessy",
+  },
 
-const googleAppsScriptURL =
-  "https://script.google.com/macros/s/AKfycbxvB56ASt2LwFAucfDO2o9JXNl7gqt-oSF02mUwpCJFohA9tdl7u4ah9kzq65cyJyvY8A/exec";
+  {
+    username: "@stepaks576",
+    image: "https://unavatar.io/twitter/stepaks576",
+    style: "green",
+    description: "addys my idolo ",
+    link: "https://x.com/stepaks576",
+  },
 
-async function fetchProfilesFromSheet() {
-  const sheetId = "13CDU8eg7xa48DqkrpAKb-eS3YMl1tioTw_UU8j7fM9g";
-  const sheetRange = "A:B";
-  const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetRange}?alt=json&key=AIzaSyAzpfnEdZVGxjgOV7x2r6_dMpstro-D7Pg`;
+  {
+    username: "@pixnvm",
+    image: "https://unavatar.io/twitter/pixnvm",
+    style: "green",
+    description: "bad artist, creator of pfp pix",
+    link: "https://x.com/pixnvm",
+  },
 
-  try {
-    const res = await fetch(url);
-    const data = await res.json();
-    const rows = data.values;
+  {
+    username: "@Deynu_xx",
+    image: "https://unavatar.io/twitter/Deynu_xx",
+    style: "purple",
+    description: "Succinct baddie, writer, cute and taken",
+    link: "https://x.com/Deynu_xx",
+  },
 
-    if (!rows || rows.length < 2) return;
+  {
+    username: "@mvkise",
+    image: "https://unavatar.io/twitter/mvkise",
+    style: "purple",
+    description: "Programmable truth lead, technical writer",
+    link: "https://x.com/mvkise",
+  },
 
-    const [headers, ...entries] = rows;
+  {
+    username: "@SaiMoo_n",
+    image: "https://unavatar.io/twitter/SaiMoo_n",
+    style: "purple",
+    description: "proofer, regional helper at succinctLabs ",
+    link: "https://x.com/SaiMoo_n",
+  },
+  {
+    username: "@sscorpy_",
+    image: "https://unavatar.io/twitter/@sscorpy_",
+    style: "purple",
+    description: "Succinct baddie",
+    link: "https://x.com/@sscorpy_",
+  },
 
-    profiles = entries.map(([username, description]) => {
-      const cleanUsername = username.replace(/^@/, "");
-      return {
-        username: username,
-        image: `https://unavatar.io/twitter/${cleanUsername}`,
-        style: "green",
-        description: description,
-        link: `https://x.com/${cleanUsername}`,
-      };
-    });
+  {
+    username: "@0xShalen",
+    image: "https://unavatar.io/twitter/0xShalen",
+    style: "purple",
+    description: "Contributor at succinctlabs",
+    link: "https://x.com/0xShalen",
+  },
+  {
+    username: "@COOCOOWAVESS",
+    image: "https://unavatar.io/twitter/COOCOOWAVESS",
+    style: "purple",
+    description: "Proof-coded. Baddie-driven. Visually loud, silently powerful",
+    link: "https://x.com/COOCOOWAVESS",
+  },
+  {
+    username: "@Ifeeomaa",
+    image: "https://unavatar.io/twitter/Ifeeomaa",
+    style: "purple",
+    description:
+      "We came, we loved, we learned, we made our mark. I enjoyed it here.",
+    link: "https://x.com/Ifeeomaa",
+  },
+  {
+    username: "@feninnfo",
+    image: "https://unavatar.io/twitter/feninnfo",
+    style: "purple",
+    description: " I love to connect, learn, and share my thoughts",
+    link: "https://x.com/feninnfo",
+  },
+  {
+    username: "@mzkyoo",
+    image: "https://unavatar.io/twitter/mzkyoo",
+    style: "purple",
+    description: "Contributor at succinctlabs",
+    link: "https://x.com/mzkyoo",
+  },
+  {
+    username: "@papito_dele",
+    image: "https://unavatar.io/twitter/papito_dele",
+    style: "purple",
+    description: "Contributor at succinctlabs",
+    link: "https://x.com/papito_dele",
+  },
+  {
+    username: "@MrS1rsh",
+    image: "https://unavatar.io/twitter/MrS1rsh",
+    style: "purple",
+    description: "SuccinctLabs addicted dev",
+    link: "https://x.com/MrS1rsh",
+  },
 
-    renderProfiles(profiles);
-  } catch (err) {
-    console.error("Failed to fetch profiles from sheet:", err);
-  }
+  {
+    username: "@peach3866",
+    image: "https://unavatar.io/twitter/peach3866",
+    style: "purple",
+    description: "All in succinct",
+    link: "https://x.com/peach3866",
+  },
+  {
+    username: "@Lost_xyz6",
+    image: "https://unavatar.io/twitter/Lost_xyz6",
+    style: "purple",
+    description: "Just a chill girl, All in succinct",
+    link: "https://x.com/Lost_xyz6",
+  },
+  {
+    username: "@crlazeeee",
+    image: "https://unavatar.io/twitter/crlazeeee",
+    style: "purple",
+    description: " Helper at SuccinctLabs",
+    link: "https://x.com/crlazeeee",
+  },
+  {
+    username: "@serkankels",
+    image: "https://unavatar.io/twitter/serkankels",
+    style: "purple",
+    description: "Proof of Dev at succinctLabs",
+    link: "https://x.com/serkankels",
+  },
+  {
+    username: "@OluwaseyiSOL",
+    image: "https://unavatar.io/twitter/OluwaseyiSOL",
+    style: "purple",
+    description: "Gprove to SuccinctLabs",
+    link: "https://x.com/OluwaseyiSOL",
+  },
+
+  {
+    username: "@crypto_meii",
+    image: "https://unavatar.io/twitter/crypto_meii",
+    style: "purple",
+    description: "Regional lead at succinct ",
+    link: "https://x.com/crypto_meii",
+  },
+
+  {
+    username: "@Lolaaa_00_",
+    image: "https://unavatar.io/twitter/Lolaaa_00_",
+    style: "purple",
+    description: "Succinct baddie, storyteller",
+    link: "https://x.com/Lolaaa_00_",
+  },
+
+  {
+    username: "@imani_cc",
+    image: "https://unavatar.io/twitter/imani_cc",
+    style: "purple",
+    description: "Succinct baddie, animations",
+    link: "https://x.com/imani_cc",
+  },
+  {
+    username: "@vikktorrrre",
+    image: "https://unavatar.io/twitter/vikktorrrre",
+    style: "purple",
+    description: "Toxic, All in succinct",
+    link: "https://x.com/vikktorrrre",
+  },
+  {
+    username: "@inwhics",
+    image: "https://unavatar.io/twitter/inwhics",
+    style: "purple",
+    description: "Network Engineer, All in succinct",
+    link: "https://x.com/inwhics",
+  },
+  {
+    username: "@mid3python",
+    image: "https://unavatar.io/twitter/mid3python",
+    style: "purple",
+    description: "Chill guy, writing at succinct",
+    link: "https://x.com/mid3python",
+  },
+
+  {
+    username: "@fidesire19",
+    image: "https://unavatar.io/twitter/fidesire19",
+    style: "green",
+    description:
+      "I am a true ZK believer, and I also support my fellow Succinct contributors on X and discord;. This got me to become the No. 1 on Succinct Kaito 30D leaderboard.",
+    link: "https://x.com/fidesire19",
+  },
+  {
+    username: "@web3tug",
+    image: "https://unavatar.io/twitter/web3tug",
+    style: "green",
+    description:
+      "Lives and breathes zero-knowledge — not for attention, but for impact.",
+    link: "https://x.com/web3tug",
+  },
+  {
+    username: "@Cfcmanuel_",
+    image: "https://unavatar.io/twitter/Cfcmanuel_",
+    style: "green",
+    description:
+      "I love to support people around me in ways that I can. i hate bad actors.",
+    link: "https://x.com/Cfcmanuel_",
+  },
+
+  {
+    username: "@Rever1f",
+    image: "https://unavatar.io/twitter/Rever1f",
+    style: "green",
+    description: "SP1 has literally overworked mossad",
+    link: "https://x.com/Rever1f",
+  },
+  {
+    username: "@3dblurss",
+    image: "https://unavatar.io/twitter/3dblurss",
+    style: "green",
+    description: "Built 3d version of turbo racing www.turbosp.fun",
+    link: "https://x.com/3dblurss",
+  },
+  {
+    username: "@SeyiXnox",
+    image: "https://unavatar.io/twitter/SeyiXnox",
+    style: "green",
+    description:
+      "@Seyixnox	Succinct changed everything about me! My heart would be with this community forever. Gprove from Oluseyix. ",
+    link: "https://x.com/SeyiXnox",
+  },
+  {
+    username: "@0xHawas",
+    image: "https://unavatar.io/twitter/0xHawas",
+    style: "green",
+    description:
+      "I am a passionate writer who have nothing to contribute to the great community except his writings.",
+    link: "https://x.com/0xHawas",
+  },
+  {
+    username: "@abdullahi_wolf",
+    image: "https://unavatar.io/twitter/abdullahi_wolf",
+    style: "green",
+    description:
+      "Became a better writer and content creator and also a big advocate for small accounts and supporting them.",
+    link: "https://x.com/abdullahi_wolf",
+  },
+  {
+    username: "@mariocrypto27",
+    image: "https://unavatar.io/twitter/mariocrypto27",
+    style: "green",
+    description:
+      "Big mario is a young and focus guy who love to engage and support others succinct community members",
+    link: "https://x.com/mariocrypto27",
+  },
+  {
+    username: "@0x_TOBZ",
+    image: "https://unavatar.io/twitter/0x_TOBZ",
+    style: "green",
+    description: "In love with succinct",
+
+    link: "https://x.com/0x_TOBZ",
+  },
+
+  {
+    username: " @Defispider",
+    image: "https://unavatar.io/twitter/Defispider",
+    style: "green",
+    description: "Succinct chad",
+    link: "https://x.com/Defispider",
+  },
+  {
+    username: "@Thewizardee",
+    image: "https://unavatar.io/twitter/Thewizardee",
+    style: "green",
+    description: "Magic 🙃",
+    link: "https://x.com/Thewizardee",
+  },
+  {
+    username: "@0xManel",
+    image: "https://unavatar.io/twitter/0xManel",
+    style: "green",
+    description: "All in succinct",
+    link: "https://x.com/0xManel",
+  },
+  {
+    username: "Tuong",
+    image: "https://unavatar.io/twitter/Hu14951738",
+    style: "green",
+    description: "All in Succinct",
+    link: "https://x.com/Hu14951738",
+  },
+  {
+    username: "@CommandoOfweb3",
+    image: "https://unavatar.io/twitter/CommandoOfweb3",
+    style: "green",
+    description: "Baddest thread writer at succinct",
+    link: "https://x.com/CommandoOfweb3",
+  },
+  {
+    username: "@realpelumi01",
+    image: "https://unavatar.io/twitter/realpelumi01",
+    style: "green",
+    description: "All in succinct",
+    link: "https://x.com/realpelumi01",
+  },
+  {
+    username: "@Adeleke74909",
+    image: "https://unavatar.io/twitter/Adeleke74909",
+    style: "green",
+    description:
+      "Generalargos Dao founder Fully into web3 Trader Community managing Dc: general1126",
+    link: "https://x.com/Adeleke74909",
+  },
+  {
+    username: "@hooleesheetJack",
+    image: "https://unavatar.io/twitter/hooleesheetJack",
+    style: "green",
+    description: "Contributor at SuccinctLabs",
+    link: "https://x.com/hooleesheetJack",
+  },
+
+  {
+    username: "@hacknetic_",
+    image: "https://unavatar.io/twitter/hacknetic_",
+    style: "green",
+    description: "Bugs not fixed yet...",
+    link: "https://x.com/hacknetic_",
+  },
+  {
+    username: "@lovecity0088",
+    image: "https://unavatar.io/twitter/lovecity0088",
+    style: "green",
+    description: "Helper of SuccinctLabs",
+    link: "https://x.com/lovecity0088",
+  },
+  {
+    username: "@Zahar0n_",
+    image: "https://unavatar.io/twitter/Zahar0n_",
+    style: "green",
+    description: "lil gpu at SuccinctLabs",
+    link: "https://x.com/Zahar0n_",
+  },
+  {
+    username: "@0xEnsp1re",
+    image: "https://unavatar.io/twitter/0xEnsp1re",
+    style: "green",
+    description: "Contributor at SuccinctLabs",
+    link: "https://x.com/0xEnsp1re",
+  },
+  {
+    username: "0xhirono",
+    image: "https://unavatar.io/twitter/0xhirono",
+    style: "green",
+    description: "All in succinct",
+    link: "https://x.com/0xhirono",
+  },
+  {
+    username: "@0xzmk",
+    image: "https://unavatar.io/twitter/0xzmk",
+    style: "green",
+    description:
+      "{ role: 'SuperProver💜', activity: 'Contribute', focus: 'Succinct', crypto: '$PROVE' }",
+    link: "https://x.com/0xzmk",
+  },
+  {
+    username: "@LgVuhungphi",
+    image: "https://unavatar.io/twitter/LgVuhungphi",
+    style: "green",
+    description: "All in succinct",
+    link: "https://x.com/LgVuhungphi",
+  },
+  {
+    username: "@anstapnever",
+    image: "https://unavatar.io/twitter/anstapnever",
+    style: "green",
+    description: "I don't care !",
+    link: "https://x.com/anstapnever",
+  },
+  {
+    username: "@ItsBatagorr",
+    image: "https://unavatar.io/twitter/ItsBatagorr",
+    style: "green",
+    description: "All in succant !",
+    link: "https://x.com/ItsBatagorr",
+  },
+  {
+    username: "@breezyjpg",
+    image: "https://unavatar.io/twitter/breezyjpg",
+    style: "green",
+    description: "All in succinct",
+    link: "https://x.com/breezyjpg",
+  },
+  {
+    username: "@mota_kidah",
+    image: "https://unavatar.io/twitter/mota_kidah",
+    style: "green",
+    description:
+      "I’m a reply guy amplifying Succinct’s vibe on X, while coding ZK-inspired apps like quizzes to spark community learning",
+    link: "https://x.com/mota_kidah",
+  },
+  {
+    username: "@seuncoded",
+    image: "https://unavatar.io/twitter/seuncoded",
+    style: "green",
+    description:
+      "Exploring the edge of Web3. Node runner, thread writer, meme maker. Early to what matters. Loyal to what lasts.",
+    link: "https://x.com/seuncoded",
+  },
+  {
+    username: "@Athryver",
+    image: "https://unavatar.io/twitter/Athryver",
+    style: "green",
+    description:
+      "Quality reply guy. Juggle between discord and X activities while exploring new skill sets.",
+    link: "https://x.com/Athryver",
+  },
+  {
+    username: "@MaxiEffect",
+    image: "https://unavatar.io/twitter/MaxiEffect",
+    style: "green",
+    description: "real and realer",
+    link: "https://x.com/MaxiEffect",
+  },
+  {
+    username: "@0xSunex",
+    image: "https://unavatar.io/twitter/0xSunex",
+    style: "green",
+    description:
+      "@0xSunex is a passionate Nigerian prover, thriving in @SuccinctLabs' testnet with 12k+ stars, hyping zk-proofs and staking while dreaming of a crypto future powered by Succinct's SP1 and CLOBs!  0xSunex's hyping up SuccinctLabs' community, praising dope art, and craving SP1 omelettes!  > We are the best Community in crypto history fr. Go argue with a wall if I disagree Quote if you feel the same way😌🔁",
+    link: "https://x.com/0xSunex",
+  },
+  {
+    username: "@divinea921",
+    image: "https://unavatar.io/twitter/divinea921",
+    style: "green",
+    description: "I believe in Succinct tech",
+    link: "https://x.com/divinea921",
+  },
+
+  {
+    username: "@EvanColin16",
+    image: "https://unavatar.io/twitter/EvanColin16",
+    style: "green",
+    description: "I post what i want, i hope you enjoy...",
+    link: "https://x.com/EvanColin16",
+  },
+  {
+    username: "@Arfan42535097",
+    image: "https://unavatar.io/twitter/Arfan42535097",
+    style: "green",
+    description:
+      "Im just someone who genuinely enjoys being part of this space. Whether its learning, supporting others, or just showing up with good vibes  Im all in for Succinct and excited to grow with everyone here",
+    link: "https://x.com/Arfan42535097",
+  },
+  {
+    username: "@kacchanr_",
+    image: "https://unavatar.io/twitter/kacchanr_",
+    style: "green",
+    description: "Read my Twitter Bio.",
+    link: "https://x.com/kacchanr_",
+  },
+  {
+    username: "@Tweet_willy",
+    image: "https://unavatar.io/twitter/Tweet_willy",
+    style: "green",
+    description:
+      "I’m Will, a community lover, always supports tweets of fellow succinct community members, I’m also an artist, but stopped creating for a while, recently put out an art, and more arts on its way, currently writing tweets and threads that educate folks on Succinct!",
+    link: "https://x.com/Tweet_willy",
+  },
+
+  {
+    username: "@Tonye_miracle",
+    image: "https://unavatar.io/twitter/Tonye_miracle",
+    style: "green",
+    description:
+      "I love the tech behind succinct and I write it in the simplest of ways for a crypto and non crypto person to understand it.",
+    link: "https://x.com/Tonye_miracle",
+  },
+  {
+    username: "@neonbeamy",
+    image: "https://unavatar.io/twitter/neonbeamy",
+    style: "green",
+    description:
+      "I am a very optimistic person ,  I try as much to stay positive and encourage people in communities to do the same",
+    link: "https://x.com/neonbeamy",
+  },
+  {
+    username: "@hu14951738",
+    image: "https://unavatar.io/twitter/hu14951738",
+    style: "green",
+    description: "Super reply guy",
+    link: "https://x.com/hu14951738",
+  },
+
+  {
+    username: "@revenes_",
+    image: "https://unavatar.io/twitter/revenes_",
+    style: "green",
+    description: "proving weird code with SuccinctLabs",
+    link: "https://x.com/revenes_",
+  },
+  {
+    username: "@oyetoludan01",
+    image: "https://unavatar.io/twitter/oyetoludan01",
+    style: "green",
+    description: "Lover of SuccinctLabs",
+    link: "https://x.com/oyetoludan01",
+  },
+  {
+    username: "@fakedev9999",
+    image: "https://unavatar.io/twitter/fakedev9999",
+    style: "green",
+    description: "stepdad op-succinct at succinctlabs",
+    link: "https://x.com/fakedev9999",
+  },
+  {
+    username: "@0xJaehaerys",
+    image: "https://unavatar.io/twitter/0xJaehaerys",
+    style: "green",
+    description: "research/deep writings at succinctlabs",
+    link: "https://x.com/0xJaehaerys",
+  },
+  {
+    username: "@crypt_paco",
+    image: "https://unavatar.io/twitter/crypt_paco",
+    style: "green",
+    description: "All in succinct",
+    link: "https://x.com/crypt_paco",
+  },
+
+  {
+    username: "@vicxweb",
+    image: "https://unavatar.io/twitter/vicxweb",
+    style: "green",
+    description: "Be Humble & Honest",
+    link: "https://x.com/vicxweb",
+  },
+  {
+    username: "@zar_batyshka",
+    image: "https://unavatar.io/twitter/zar_batyshka",
+    style: "green",
+    description: "prover at succinct",
+    link: "https://x.com/zar_batyshka",
+  },
+  {
+    username: "@Miley_nguyen2k",
+    image: "https://unavatar.io/twitter/Miley_nguyen2k",
+    style: "green",
+    description: "I love at SuccinctLabs 😘",
+    link: "https://x.com/Miley_nguyen2k",
+  },
+  {
+    username: "@Jekyde",
+    image: "https://unavatar.io/twitter/Jekyde",
+    style: "green",
+    description: "All in Succinct",
+    link: "https://x.com/Jekyde",
+  },
+  {
+    username: "@Delta_web3",
+    image: "https://unavatar.io/twitter/Delta_web3",
+    style: "green",
+    description: "proof of dev, proof of art at succinct",
+    link: "https://x.com/Delta_web3",
+  },
+  {
+    username: "adenweb3",
+    image: "https://unavatar.io/twitter/adenweb3",
+    style: "green",
+    description: "Just want to see me and my frens WIN",
+    link: "https://x.com/adenweb3",
+  },
+  {
+    username: "@RikyYakub4",
+    image: "https://unavatar.io/twitter/RikyYakub4",
+    style: "green",
+    description:
+      "I'm a simple man, Succinct everything, Succinct everyday,ALL IN SUCCINCT",
+    link: "https://x.com/RikyYakub4",
+  },
+
+  {
+    username: "@FeranmiAyano",
+    image: "https://unavatar.io/twitter/FeranmiAyano",
+    style: "green",
+    description:
+      "Am a dedicated prover,trying my best to support with the best in me",
+    link: "https://x.com/FeranmiAyano",
+  },
+  {
+    username: "@Iam__robert",
+    image: "https://unavatar.io/twitter/Iam__robert",
+    style: "green",
+    description:
+      "I’m your favorite supporter on the TL, I maybe talentless but I will always show up for you and you guys love me for it. I also give good songs and retarded content to keep you going",
+    link: "https://x.com/Iam__robert",
+  },
+  {
+    username: "Professor_xn",
+    image: "https://unavatar.io/twitter/Professor_xn",
+    style: "green",
+    description:
+      "Inshallah and vibes, I am a simple guy, loves making friends, playful and jovial",
+    link: "https://x.com/Professor_xn",
+  },
+  {
+    username: "@blessing4l",
+    image: "https://unavatar.io/twitter/blessing4l",
+    style: "green",
+    description:
+      "Vibing through Zero Knowledge with Succinct. Yapping and proving, one block at a time",
+    link: "https://x.com/blessing4l",
+  },
+  // ... you can keep all other profiles here ...
+];
+
+// --- 2. Load saved profiles from localStorage ---
+function getSavedProfiles() {
+  const saved = localStorage.getItem("savedProfiles");
+  return saved ? JSON.parse(saved) : [];
 }
 
+// --- 3. Combine all profiles (predefined + saved) ---
+function getAllProfiles() {
+  return [...predefinedProfiles, ...getSavedProfiles()];
+}
+
+// --- 4. Save a new profile to localStorage ---
+function saveNewProfile(profile) {
+  const saved = getSavedProfiles();
+
+  // Prevent duplicate usernames (case insensitive)
+  const alreadyExists = getAllProfiles().some(
+    (p) => p.username.toLowerCase() === profile.username.toLowerCase()
+  );
+  if (alreadyExists) {
+    alert("This username already exists in the Hall of Fame!");
+    return;
+  }
+
+  saved.unshift(profile); // Add to top
+  localStorage.setItem("savedProfiles", JSON.stringify(saved));
+}
+
+// --- 5. Render profiles ---
 const container = document.getElementById("cardContainer");
 
-function renderProfiles(list, limit = 54) {
+function renderProfiles(list) {
   container.innerHTML = "";
-  list.slice(0, limit).forEach((profile) => {
+  list.forEach((profile) => {
     const card = document.createElement("div");
     card.className = `profile-card ${profile.style}`;
     card.onclick = () => window.open(profile.link, "_blank");
@@ -53,69 +695,39 @@ function renderProfiles(list, limit = 54) {
   });
 }
 
+// --- 6. Handle search ---
 const searchInput = document.getElementById("searchInput");
 searchInput.addEventListener("input", (e) => {
   const keyword = e.target.value.toLowerCase();
-  const filtered = profiles.filter((p) =>
+  const filtered = getAllProfiles().filter((p) =>
     p.username.toLowerCase().includes(keyword)
   );
-  renderProfiles(filtered, filtered.length);
+  renderProfiles(filtered);
 });
 
-fetchProfilesFromSheet();
-
-document.getElementById("submitForm").addEventListener("submit", function (e) {
+// --- 7. Handle form submission ---
+const form = document.getElementById("submitForm");
+form.addEventListener("submit", (e) => {
   e.preventDefault();
+  const username = document.getElementById("newUsername").value.trim();
+  const description = document.getElementById("newDescription").value.trim();
 
-  const usernameInput = document.getElementById("newUsername");
-  const descInput = document.getElementById("newDescription");
-  const rawUsername = usernameInput.value.trim();
-  const description = descInput.value.trim();
+  if (!username || !description) return;
 
-  if (!rawUsername.startsWith("@") || rawUsername.length < 3) {
-    alert(
-      "Invalid X username. It must start with '@' and be at least 3 characters."
-    );
-    return;
-  }
+  const cleanUsername = username.replace("@", "");
 
-  const username = rawUsername.replace(/^@/, "");
+  const newProfile = {
+    username: username.startsWith("@") ? username : `@${cleanUsername}`,
+    image: `https://unavatar.io/twitter/${cleanUsername}`,
+    style: "green",
+    description,
+    link: `https://x.com/${cleanUsername}`,
+  };
 
-  const alreadyExists = profiles.some(
-    (p) => p.username.replace(/^@/, "").toLowerCase() === username.toLowerCase()
-  );
-
-  if (alreadyExists) {
-    alert("This X username has already been added to the Hall of Fame!");
-    return;
-  }
-
-  // Save to Google Sheet via Apps Script
-  fetch(googleAppsScriptURL, {
-    method: "POST",
-    body: JSON.stringify({
-      username: rawUsername,
-      description: description,
-    }),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then((res) => res.text())
-    .then((response) => {
-      console.log("Response from Google Apps Script:", response);
-
-      // Clear input fields
-      usernameInput.value = "";
-      descInput.value = "";
-
-      alert("You're now in the Hall of Fame! 🎉");
-
-      // Refresh from Google Sheet to reflect new entry
-      fetchProfilesFromSheet();
-    })
-    .catch((err) => {
-      console.error("Error submitting profile:", err);
-      alert("There was an error submitting your profile. Please try again.");
-    });
+  saveNewProfile(newProfile);
+  renderProfiles(getAllProfiles());
+  form.reset();
 });
+
+// --- 8. Initial render ---
+renderProfiles(getAllProfiles());
